@@ -36,3 +36,20 @@ https://rimdev.io/hugo-extended-latest-install-script-for-macos/
 ## publish to github pages
 
 https://sourcethemes.com/academic/docs/deployment/#github-pages
+
+## update
+
+```
+git add .
+git commit -m "Initial commit"
+git push -u origin master
+```
+
+```
+hugo
+cd public
+git add .
+git commit -m "Build website"
+git push origin master
+cd ..
+```
