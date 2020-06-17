@@ -1,7 +1,7 @@
 ---
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
-title: "Hugo"
+title: "Hugo Setup"
 subtitle: ""
 summary: ""
 authors: []
@@ -29,15 +29,16 @@ projects: []
 ---
 
 
-## install hugo
+## Install hugo on mac
 
-https://rimdev.io/hugo-extended-latest-install-script-for-macos/
+Use the script from https://rimdev.io/hugo-extended-latest-install-script-for-macos/ to install hugo.
 
-## publish to github pages
 
-https://sourcethemes.com/academic/docs/deployment/#github-pages
+## Setup repo
 
-## update
+Follow the official guide https://sourcethemes.com/academic/docs/deployment/#github-pages to fork the Academic Kickstart repository.
+
+## Configure your site
 
 ```
 git add .
@@ -45,6 +46,11 @@ git commit -m "Initial commit"
 git push -u origin master
 ```
 
+## publish to github pages
+
+create new post using `hugo new  --kind post post/hugo`
+
+publish/update github pages
 ```
 hugo
 cd public

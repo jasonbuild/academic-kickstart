@@ -1,7 +1,7 @@
 ---
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
-title: "Python Parallel"
+title: "Multi-threaded Python Parallelization"
 subtitle: ""
 summary: ""
 authors: []
@@ -28,69 +28,34 @@ image:
 projects: []
 ---
 
+One common use case of parallel in Python is network requests. One of the most simple solutions to send million of requests is using `multiprocessing.dummy.Pool`.
 
-## multithread
+Sample code
+
 ```python
-import urllib2
+import requests
 from multiprocessing.dummy import Pool as ThreadPool
 
-urls = [
-  'http://www.python.org',
-  'http://www.python.org/about/',
-  'http://www.onlamp.com/pub/a/python/2003/04/17/metaclasses.html',
-  'http://www.python.org/doc/',
-  'http://www.python.org/download/',
-  'http://www.python.org/getit/',
-  'http://www.python.org/community/',
-  'https://wiki.python.org/moin/',
-  'http://planet.python.org/',
-  'https://wiki.python.org/moin/LocalUserGroups',
-  'http://www.python.org/psf/',
-  'http://docs.python.org/devguide/',
-  'http://www.python.org/community/awards/'
-  # etc..
-  ]
 
-# Make the Pool of workers
+def fetch(url):
+  resp = requests.get(url)
+  if resp.status_code == 200:
+    content = resp.text
+  else:
+    content = None
+  data = {
+    'url': url,
+    'content': content
+  }
+  return data
+
+
+urls = [
+  ...
+]
+
 pool = ThreadPool(4)
-# Open the urls in their own threads
-# and return the results
-results = pool.map(urllib2.urlopen, urls)
-#close the pool and wait for the work to finish
+data_list = pool.map(requests.get, urls)
 pool.close()
 pool.join()
-```
-
-## multiprocess
-```python
-from multiprocessing import Pool
-from PIL import Image
-
-SIZE = (75,75)
-SAVE_DIRECTORY = 'thumbs'
-
-def get_image_paths(folder):
-  return (os.path.join(folder, f)
-      for f in os.listdir(folder)
-      if 'jpeg' in f)
-
-def create_thumbnail(filename):
-  im = Image.open(filename)
-  im.thumbnail(SIZE, Image.ANTIALIAS)
-  base, fname = os.path.split(filename)
-  save_path = os.path.join(base, SAVE_DIRECTORY, fname)
-  im.save(save_path)
-
-if __name__ == '__main__':
-  folder = os.path.abspath(
-    '11_18_2013_R000_IQM_Big_Sur_Mon__e10d1958e7b766c3e840')
-  os.mkdir(os.path.join(folder, SAVE_DIRECTORY))
-
-  images = get_image_paths(folder)
-
-  pool = Pool()
-    pool.map(create_thumbnail, images)
-    pool.close()
-    pool.join()
-
 ```
